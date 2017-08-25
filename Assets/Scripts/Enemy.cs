@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     }
     void Start()
     {
+        GameManager.Instance.RegisterEnemy(this);
    
     }
 
@@ -46,7 +47,7 @@ void OnTriggerEnter(Collider other)
             _targetWayPoint++;
             if (_targetWayPoint >= _wayPointsTransforms.Length)
             {
-                Destroy(gameObject);
+                GameManager.Instance.UnRegisterEnemy(this);
             }
         }
     }

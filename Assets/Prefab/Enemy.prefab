@@ -123,7 +123,7 @@ MonoBehaviour:
   - {fileID: 4790027621379760, guid: 2c5ad9243f453164d8c0e8503e5d1978, type: 2}
   - {fileID: 4676305709606084, guid: 2c5ad9243f453164d8c0e8503e5d1978, type: 2}
   - {fileID: 4260672841978022, guid: 2c5ad9243f453164d8c0e8503e5d1978, type: 2}
-  _speed: 12
+  _speed: 6
 --- !u!135 &135391869751215032
 SphereCollider:
   m_ObjectHideFlags: 1
