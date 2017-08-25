@@ -42,7 +42,15 @@ public class Turret : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(bulletPrefab, GameObject.Find("FirePoint").transform.position, Quaternion.identity);
+        Vector3 offset = new Vector3(0f, 1f, 0f);
+        Bullet bullet = Instantiate(bulletPrefab, transform.position + offset, Quaternion.identity);
+        print(bullet.transform.position);
+
+        
+        if (bullet != null)
+        {
+            bullet.Seek(_target);
+        }
 
     }
 
