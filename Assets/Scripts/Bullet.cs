@@ -48,7 +48,7 @@ public class Bullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        print("Trigger occured");
+
         HitTarget();
     }
 

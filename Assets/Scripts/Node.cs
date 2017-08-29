@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Node : MonoBehaviour {
 
@@ -27,15 +28,34 @@ public class Node : MonoBehaviour {
             print("Cant build there!");
             return;
         }
-        //Build turret
-        GameObject turretToBuild = TurretManager.Instance.TurretToBuild;
-        Vector3 offset = new Vector3(0f, 0.75f, 0f);
-        turret = Instantiate(turretToBuild, transform.position + offset, transform.rotation);
+        if (TurretManager.Instance.TurretToBuild != null && !EventSystem.current.IsPointerOverGameObject())
+        {
+            GameObject turretToBuild = TurretManager.Instance.TurretToBuild;
+            print(turretToBuild.name);
+            Vector3 offset = new Vector3();
+            if (turretToBuild.name == "MissileLauncher")
+            {
+                offset = new Vector3(0f, 0.488f, 0f);
+            } else if (turretToBuild.name == "StandardTurret")
+            {
+                offset = new Vector3(0f, 0.75f, 0f);
+            } else
+            {
+                offset = new Vector3(0f, 0.75f, 0f);
+            }
+            
+            turret = Instantiate(turretToBuild, transform.position + offset, transform.rotation);
+        }
+
     }
 
     private void OnMouseEnter()
     {
-        rend.material.color = hoverColor;
+        if (TurretManager.Instance.TurretToBuild != null && !EventSystem.current.IsPointerOverGameObject())
+        {
+            rend.material.color = hoverColor;
+        }
+        
     }
 
     private void OnMouseExit()
