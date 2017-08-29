@@ -31,7 +31,6 @@ public class Node : MonoBehaviour {
         if (TurretManager.Instance.TurretToBuild != null && !EventSystem.current.IsPointerOverGameObject())
         {
             GameObject turretToBuild = TurretManager.Instance.TurretToBuild;
-            print(turretToBuild.name);
             Vector3 offset = new Vector3();
             if (turretToBuild.name == "MissileLauncher")
             {
