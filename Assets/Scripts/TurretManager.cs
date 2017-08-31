@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class TurretManager : Singleton<TurretManager> {
 
-    [SerializeField] private GameObject standardTurretprefab;
-    [SerializeField] private GameObject missileLauncherprefab;
+    [SerializeField] private Turret standardTurretprefab;
+    [SerializeField] private Turret missileLauncherprefab;
 
-    private GameObject _turretToBuild = null;
+    private Turret _turretToBuild = null;
 
-    public GameObject TurretToBuild
+    public Turret TurretToBuild
     {
         get
         {
@@ -28,19 +28,15 @@ public class TurretManager : Singleton<TurretManager> {
 		
 	}
 
-    public void PurchaseStandardTurret()
+    public void SelectStandardTurret()
     {
         _turretToBuild = standardTurretprefab;
 
     }
 
-    public void PurchaseMissileLauncher()
+    public void SelectMissileLauncher()
     {
         _turretToBuild = missileLauncherprefab;
     }
 
-    public void PlaceTurret()
-    {
-
-    }
 }

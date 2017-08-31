@@ -226,6 +226,7 @@ MonoBehaviour:
   range: 15
   _rotationSpeed: 10
   _fireRate: 1
+  _cost: 100
   _partToRotate: {fileID: 4936239109385950}
   bulletPrefab: {fileID: 114662644224478914, guid: b10148be9f20e054dbda81a00e72cd16,
     type: 2}

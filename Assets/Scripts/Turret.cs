@@ -8,6 +8,7 @@ public class Turret : MonoBehaviour
     [SerializeField] private float range = 15f;
     [SerializeField] private float _rotationSpeed = 2f;
     [SerializeField] private float _fireRate = 1f;
+    [SerializeField] private int _cost;
 
     [Header("Unity Setup Fields")]
     [SerializeField] private Transform _partToRotate;
@@ -15,6 +16,11 @@ public class Turret : MonoBehaviour
 
     private float _fireCountdown = 0f;
     private Transform _target;
+
+    public int Cost
+    {
+        get { return _cost; }
+    }
 
     void Start () {
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);

@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0792c3514c43ea949bd582a01f5bb65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standardTurretprefab: {fileID: 1233762055319806, guid: 0fc5888811487304caf2ab6f2b54613e,
+  standardTurretprefab: {fileID: 114580961553801032, guid: 0fc5888811487304caf2ab6f2b54613e,
     type: 2}
-  missileLauncherprefab: {fileID: 1191344173757146, guid: b4ba5101f9499b44aa5f1c3bf155e1ea,
+  missileLauncherprefab: {fileID: 114606164006302004, guid: b4ba5101f9499b44aa5f1c3bf155e1ea,
     type: 2}

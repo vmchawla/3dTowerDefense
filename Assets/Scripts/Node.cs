@@ -7,7 +7,7 @@ public class Node : MonoBehaviour {
 
     [SerializeField] private Color hoverColor;
 
-    private GameObject turret;
+    private Turret turret;
     private Color startColor;
     private Renderer rend;
 
@@ -30,7 +30,7 @@ public class Node : MonoBehaviour {
         }
         if (TurretManager.Instance.TurretToBuild != null && !EventSystem.current.IsPointerOverGameObject())
         {
-            GameObject turretToBuild = TurretManager.Instance.TurretToBuild;
+            var turretToBuild = TurretManager.Instance.TurretToBuild;
             Vector3 offset = new Vector3();
             if (turretToBuild.name == "MissileLauncher")
             {
@@ -42,8 +42,20 @@ public class Node : MonoBehaviour {
             {
                 offset = new Vector3(0f, 0.75f, 0f);
             }
+
+            if (PlayerStats.Instance.Money < turretToBuild.Cost)
+            {
+                print("You do not have enough moneys");
+            }
+            else
+            {
+                turret = Instantiate(turretToBuild, transform.position + offset, transform.rotation);
+                PlayerStats.Instance.Money -= turretToBuild.Cost;
+                print("money Left: " + PlayerStats.Instance.Money);
+            }
             
-            turret = Instantiate(turretToBuild, transform.position + offset, transform.rotation);
+            
+            
         }
 
     }
