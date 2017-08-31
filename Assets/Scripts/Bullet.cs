@@ -7,6 +7,7 @@ using UnityEngine.Assertions;
 public class Bullet : MonoBehaviour {
     [Header("Attributes")]
     [SerializeField] private float _speed = 20f;
+    [SerializeField] private float _explosionRadius = 0f;
 
     [Header("Unity Setup")]
     [SerializeField] private GameObject impactEffect;
@@ -14,6 +15,7 @@ public class Bullet : MonoBehaviour {
 
 
     private Transform _target;
+    private Rigidbody rb;
 
     void Awake()
     {
@@ -21,9 +23,10 @@ public class Bullet : MonoBehaviour {
     }
 
 
-    void Start () {
-		
-	}
+    void Start ()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -35,11 +38,18 @@ public class Bullet : MonoBehaviour {
             return;
         }
 
-        Vector3 dir = _target.position - transform.position;
-
-        transform.Translate(dir.normalized * _speed * Time.deltaTime, Space.World);
+        
+        transform.LookAt(_target);
+        //transform.Translate(dir.normalized * _speed * Time.deltaTime, Space.World);
 
 	}
+
+    public void FixedUpdate()
+    {
+        Vector3 dir = _target.position - transform.position;
+        rb.MovePosition(transform.position + dir.normalized * _speed * Time.fixedDeltaTime);
+
+    }
 
     public void Seek(Transform target)
     {
@@ -48,15 +58,49 @@ public class Bullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-
-        HitTarget();
+        HitTarget(other);
     }
 
-    public void HitTarget()
+    public void HitTarget(Collider enemy)
     {
         GameObject effectInst = Instantiate(impactEffect, transform.position, transform.rotation);
-        Destroy(effectInst, 2f);
+        Destroy(effectInst, 5f);
+
+        if (_explosionRadius > 0f)
+        {
+            Explode();
+        }
+        else
+        {
+            Damage(enemy);
+        }
 
         Destroy(gameObject);
+    }
+
+    void Explode()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _explosionRadius);
+        foreach (var myCollider in colliders)
+        {
+            if (myCollider.tag == "Enemy")
+            {
+                
+                Damage(myCollider);
+
+            }
+        }
+    }
+
+    void Damage(Collider enemy)
+    {
+        GameManager.Instance.UnRegisterEnemy(enemy.gameObject.GetComponent<Enemy>());
+        
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _explosionRadius);
     }
 }

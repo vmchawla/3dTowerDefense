@@ -30,14 +30,12 @@ public class TurretManager : Singleton<TurretManager> {
 
     public void PurchaseStandardTurret()
     {
-        print("Standard Turret Selected");
         _turretToBuild = standardTurretprefab;
 
     }
 
     public void PurchaseMissileLauncher()
     {
-        print("Missile Launcher Selected");
         _turretToBuild = missileLauncherprefab;
     }
 
