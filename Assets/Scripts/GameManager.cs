@@ -62,7 +62,7 @@ public class GameManager : Singleton<GameManager>
         _enemyList.Add(enemy);
     }
 
-    public void UnRegisterEnemy(Enemy enemy)
+    public void UnRegisterAndDestroyEnemy(Enemy enemy)
     {
         _enemyList.Remove(enemy);
         Destroy(enemy.gameObject);

@@ -60,7 +60,7 @@ void OnTriggerEnter(Collider other)
             _targetWayPoint++;
             if (_targetWayPoint >= _wayPointsTransforms.Length)
             {
-                GameManager.Instance.UnRegisterEnemy(this);
+                GameManager.Instance.UnRegisterAndDestroyEnemy(this);
             }
         }
     }

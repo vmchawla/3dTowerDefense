@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114662644224478914}
   - component: {fileID: 135302404161393420}
   - component: {fileID: 54597975455311064}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 60
+  _explosionRadius: 0
   impactEffect: {fileID: 1310964542280972, guid: bf4734d6b87533f4a9dc517c099c0bc9,
     type: 2}
 --- !u!135 &135302404161393420

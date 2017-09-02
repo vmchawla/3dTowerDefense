@@ -6,12 +6,26 @@ using UnityEngine.EventSystems;
 public class Node : MonoBehaviour {
 
     [SerializeField] private Color hoverColor;
+    [SerializeField] private Color notEnoughMoneyColor;
 
-    private Turret turret;
+    private bool alreadyHasTurret = false;
     private Color startColor;
     private Renderer rend;
 
-	void Start () {
+    public bool AlreadyHasTurret
+    {
+        get
+        {
+            return alreadyHasTurret;
+        }
+
+        set
+        {
+            alreadyHasTurret = value;
+        }
+    }
+
+    void Start () {
         rend = GetComponent<Renderer>();
         startColor = rend.material.color;
 	}
@@ -23,40 +37,13 @@ public class Node : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        if (turret != null)
+        if (AlreadyHasTurret)
         {
             print("Cant build there!");
             return;
         }
-        if (TurretManager.Instance.TurretToBuild != null && !EventSystem.current.IsPointerOverGameObject())
-        {
-            var turretToBuild = TurretManager.Instance.TurretToBuild;
-            Vector3 offset = new Vector3();
-            if (turretToBuild.name == "MissileLauncher")
-            {
-                offset = new Vector3(0f, 0.488f, 0f);
-            } else if (turretToBuild.name == "StandardTurret")
-            {
-                offset = new Vector3(0f, 0.75f, 0f);
-            } else
-            {
-                offset = new Vector3(0f, 0.75f, 0f);
-            }
 
-            if (PlayerStats.Instance.Money < turretToBuild.Cost)
-            {
-                print("You do not have enough moneys");
-            }
-            else
-            {
-                turret = Instantiate(turretToBuild, transform.position + offset, transform.rotation);
-                PlayerStats.Instance.Money -= turretToBuild.Cost;
-                print("money Left: " + PlayerStats.Instance.Money);
-            }
-            
-            
-            
-        }
+        TurretManager.Instance.PlaceTurret(this);
 
     }
 
@@ -64,7 +51,14 @@ public class Node : MonoBehaviour {
     {
         if (TurretManager.Instance.TurretToBuild != null && !EventSystem.current.IsPointerOverGameObject())
         {
-            rend.material.color = hoverColor;
+            if (TurretManager.Instance.TurretToBuild.Cost <= PlayerStats.Instance.Money)
+            {
+                rend.material.color = hoverColor;
+            } else
+            {
+                rend.material.color = notEnoughMoneyColor;
+            }
+            
         }
         
     }

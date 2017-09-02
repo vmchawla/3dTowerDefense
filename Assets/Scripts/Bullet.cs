@@ -94,7 +94,7 @@ public class Bullet : MonoBehaviour {
 
     void Damage(Collider enemy)
     {
-        GameManager.Instance.UnRegisterEnemy(enemy.gameObject.GetComponent<Enemy>());
+        GameManager.Instance.UnRegisterAndDestroyEnemy(enemy.gameObject.GetComponent<Enemy>());
         
     }
 
