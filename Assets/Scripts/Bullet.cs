@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour {
     [Header("Attributes")]
     [SerializeField] private float _speed = 20f;
     [SerializeField] private float _explosionRadius = 0f;
+    [SerializeField] private int _damage = 20;
 
     [Header("Unity Setup")]
     [SerializeField] private GameObject impactEffect;
@@ -94,7 +95,9 @@ public class Bullet : MonoBehaviour {
 
     void Damage(Collider enemy)
     {
-        GameManager.Instance.UnRegisterAndDestroyEnemy(enemy.gameObject.GetComponent<Enemy>());
+        Enemy e = enemy.GetComponent<Enemy>();
+        e.TakeDamage(_damage, e);
+        
         
     }
 

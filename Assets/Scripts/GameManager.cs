@@ -15,12 +15,12 @@ public class GameManager : Singleton<GameManager>
 
     private float countdown;
     private List<Enemy> _enemyList;
+    private bool _isGameOver = false;
 
     public List<Enemy> EnemyList
     {
         get { return _enemyList; }
     }
-
 
     private int waveNumber = 1;
 
@@ -66,5 +66,11 @@ public class GameManager : Singleton<GameManager>
     {
         _enemyList.Remove(enemy);
         Destroy(enemy.gameObject);
+    }
+
+    public void EndGame()
+    {
+        _isGameOver = true;
+        print("Game is Over! Implement functionality");
     }
 }

@@ -109,6 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e97622f41696fce43a7191bc186efe27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 8
+  _health: 100
+  _value: 50
   _wayPointsTransforms:
   - {fileID: 4052024539020826, guid: 2c5ad9243f453164d8c0e8503e5d1978, type: 2}
   - {fileID: 4360315631622600, guid: 2c5ad9243f453164d8c0e8503e5d1978, type: 2}
@@ -123,7 +126,8 @@ MonoBehaviour:
   - {fileID: 4790027621379760, guid: 2c5ad9243f453164d8c0e8503e5d1978, type: 2}
   - {fileID: 4676305709606084, guid: 2c5ad9243f453164d8c0e8503e5d1978, type: 2}
   - {fileID: 4260672841978022, guid: 2c5ad9243f453164d8c0e8503e5d1978, type: 2}
-  _speed: 6
+  _deathEffect: {fileID: 1488496387408038, guid: b4fb29cdb19819741864610923f1cbd8,
+    type: 2}
 --- !u!135 &135391869751215032
 SphereCollider:
   m_ObjectHideFlags: 1

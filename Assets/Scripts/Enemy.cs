@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Transform[] _wayPointsTransforms;
+    [Header("Attributes")]
     [SerializeField] private float _speed = 5f;
+    [SerializeField] private int _health = 100;
+    [SerializeField] private int _value = 50;
+
+    [Header("Unity Setup")]
+    [SerializeField] private Transform[] _wayPointsTransforms;
+    [SerializeField] private GameObject _deathEffect;
 
     private int _targetWayPoint = 0;
     private Rigidbody rb;
@@ -53,7 +59,7 @@ public class Enemy : MonoBehaviour
 
 
 
-void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.tag == "waypoint")
         {
@@ -61,8 +67,28 @@ void OnTriggerEnter(Collider other)
             if (_targetWayPoint >= _wayPointsTransforms.Length)
             {
                 GameManager.Instance.UnRegisterAndDestroyEnemy(this);
+                PlayerStats.Instance.LoseALife();
             }
         }
+    }
+
+    public void TakeDamage(int amount, Enemy enemy)
+    {
+        _health -= amount;
+        if (_health <= 0)
+        {
+            Die(enemy);
+        }
+
+    }
+
+    void Die(Enemy enemy)
+    {
+        GameObject deathEffect = Instantiate(_deathEffect, transform.position, Quaternion.identity);
+        Destroy(deathEffect, 5f);
+        GameManager.Instance.UnRegisterAndDestroyEnemy(enemy);
+        PlayerStats.Instance.AddMoney(_value);
+
     }
 
 }
