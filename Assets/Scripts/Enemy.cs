@@ -7,8 +7,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [Header("Attributes")]
-    [SerializeField] private float _speed = 5f;
-    [SerializeField] private int _health = 100;
+    [SerializeField] private float _startSpeed = 5f;
+    [SerializeField] private float _health = 100f;
     [SerializeField] private int _value = 50;
 
     [Header("Unity Setup")]
@@ -17,7 +17,8 @@ public class Enemy : MonoBehaviour
 
     private int _targetWayPoint = 0;
     private Rigidbody rb;
- 
+    private float _speed;
+
 
     void Awake()
     {
@@ -27,13 +28,13 @@ public class Enemy : MonoBehaviour
     {
         GameManager.Instance.RegisterEnemy(this);
         rb = GetComponent<Rigidbody>();
+        _speed = _startSpeed;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
         //if (_targetWayPoint < _wayPointsTransforms.Length)
         //{
             
@@ -52,11 +53,14 @@ public class Enemy : MonoBehaviour
             rb.MovePosition(transform.position + dir.normalized * _speed * Time.deltaTime);
             //rb.MoveRotation(transform.position + dir.normalized * _speed);
         }
+        _speed = _startSpeed;
 
     }
 
-
-
+    public void Slow(float amt)
+    {
+        _speed = _startSpeed * amt;
+    }
 
 
     void OnTriggerEnter(Collider other)
@@ -72,7 +76,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int amount, Enemy enemy)
+    public void TakeDamage(float amount, Enemy enemy)
     {
         _health -= amount;
         if (_health <= 0)

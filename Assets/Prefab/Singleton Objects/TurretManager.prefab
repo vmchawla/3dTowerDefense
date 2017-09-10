@@ -55,5 +55,7 @@ MonoBehaviour:
     type: 2}
   missileLauncherprefab: {fileID: 114606164006302004, guid: b4ba5101f9499b44aa5f1c3bf155e1ea,
     type: 2}
+  laserBeamerprefab: {fileID: 114348466177260922, guid: 4449492d96caba34cb891ed0cab93db7,
+    type: 2}
   turretBuildEffect: {fileID: 1349394227201520, guid: 064843e9b85bf0c4f86d0fa58674cbb5,
     type: 2}

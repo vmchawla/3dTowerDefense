@@ -8,6 +8,7 @@ public class TurretManager : Singleton<TurretManager> {
 
     [SerializeField] private Turret standardTurretprefab;
     [SerializeField] private Turret missileLauncherprefab;
+    [SerializeField] private Turret laserBeamerprefab;
     [SerializeField] private GameObject turretBuildEffect;
 
     private Turret _turretToBuild = null;
@@ -39,6 +40,12 @@ public class TurretManager : Singleton<TurretManager> {
     public void SelectMissileLauncher()
     {
         _turretToBuild = missileLauncherprefab;
+
+    }
+
+    public void SelectLaserBeamer()
+    {
+        _turretToBuild = laserBeamerprefab;
     }
 
     public void PlaceTurret(Node node)
@@ -53,6 +60,9 @@ public class TurretManager : Singleton<TurretManager> {
             else if (_turretToBuild.name == "StandardTurret")
             {
                 offset = new Vector3(0f, 0.75f, 0f);
+            } else if (_turretToBuild.name == "LaserBeamer")
+            {
+                offset = new Vector3(0f, -0.047f, 0f);
             }
             else
             {

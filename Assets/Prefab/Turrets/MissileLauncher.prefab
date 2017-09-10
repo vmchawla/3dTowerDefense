@@ -223,9 +223,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 30
-  _rotationSpeed: 5
+  _rotationSpeed: 7
   _fireRate: 0.25
   _cost: 250
   _partToRotate: {fileID: 4360865745638620}
   bulletPrefab: {fileID: 114054431786075282, guid: 21dc2e7b56d475c409a622348d714649,
     type: 2}
+  offset: {x: 0, y: 0, z: 0}
