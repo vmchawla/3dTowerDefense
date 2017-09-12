@@ -229,4 +229,10 @@ MonoBehaviour:
   _partToRotate: {fileID: 4360865745638620}
   bulletPrefab: {fileID: 114054431786075282, guid: 21dc2e7b56d475c409a622348d714649,
     type: 2}
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 2, z: 0}
+  useLaser: 0
+  lineRenderer: {fileID: 0}
+  impactEffect: {fileID: 0}
+  impactLight: {fileID: 0}
+  damageoverTime: 30
+  slowPerct: 0.5

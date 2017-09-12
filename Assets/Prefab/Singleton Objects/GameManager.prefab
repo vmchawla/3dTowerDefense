@@ -51,8 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156d5633275a60b498d58dbd22dc180e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnPoint: {fileID: 0}
-  _enemyPrefab: {fileID: 114866401499964694, guid: 83f972065a08a304ea0f056784e55dcd,
-    type: 2}
   _timeBetweenWaves: 3
   _timeBetweenEachSpawn: 1
+  _spawnPoint: {fileID: 1372445428683604, guid: f4aac8f40f638d44589effe3a17f73bf,
+    type: 2}
+  _enemyPrefab: {fileID: 114866401499964694, guid: 83f972065a08a304ea0f056784e55dcd,
+    type: 2}
+  gameOverUI: {fileID: 1368536087200064, guid: 974dec4bdad84474d8f889213eeb593f, type: 2}

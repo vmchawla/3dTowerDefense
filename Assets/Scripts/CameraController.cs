@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour {
             isCameraMoveEnabled = !isCameraMoveEnabled;
         }
 
-        if (isCameraMoveEnabled)
+        if (isCameraMoveEnabled && !GameManager.Instance.IsGameOver)
         {
             if ((Input.GetKey("w") || Input.mousePosition.y >= Screen.height - panBorderThickness) && transform.position.z <= -15f)
             {

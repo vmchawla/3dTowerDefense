@@ -7,34 +7,54 @@ using UnityEngine.UI;
 public class GameManager : Singleton<GameManager>
 {
 
-    [SerializeField] private GameObject _spawnPoint;
-    [SerializeField] private Enemy _enemyPrefab;
+    [Header("Spawn Attributes")]
     [SerializeField] private float _timeBetweenWaves = 5f;
     [SerializeField] private float _timeBetweenEachSpawn = 0.5f;
-    //[SerializeField] private Text _waveCountdownText;
+
+    [Header("Unity Setup")]
+    [SerializeField] private GameObject _spawnPoint;
+    [SerializeField] private Enemy _enemyPrefab;
+
+    public GameObject gameOverUI;
 
     private float countdown;
     private List<Enemy> _enemyList;
-    private bool _isGameOver = false;
+    private bool _isGameOver;
+
+    private IEnumerator co;
 
     public List<Enemy> EnemyList
     {
         get { return _enemyList; }
     }
 
-    private int waveNumber = 1;
+    public bool IsGameOver
+    {
+        get  {return _isGameOver; }
+    }
+
+    private int waveNumber;
+    private RectTransform goUIRectTransform;
 
     void Awake()
     {
         Assert.IsNotNull(_spawnPoint);
         Assert.IsNotNull(_enemyPrefab);
+        waveNumber = 1;
+        _isGameOver = false;
+        
+        gameOverUI = GameObject.Find("OverlayCanvas/GameOverUI");
+        goUIRectTransform = gameOverUI.GetComponent<RectTransform>();
+        goUIRectTransform.transform.localPosition += Vector3.right * 800f;
     }
 
 
 	void Start ()
 	{
         _enemyList = new List<Enemy>();
-	    StartCoroutine(SpawnWave());
+        co = SpawnWave();
+        StartCoroutine(co);
+        
 
 	}
 	
@@ -42,19 +62,24 @@ public class GameManager : Singleton<GameManager>
 	void Update ()
 	{
 
-
 	}
 
-    IEnumerator SpawnWave()
+    public IEnumerator SpawnWave()
     {
         for (int i = 0; i < waveNumber; i++)
         {
             Instantiate(_enemyPrefab, _spawnPoint.transform.position, _spawnPoint.transform.rotation);
             yield return new WaitForSeconds(_timeBetweenEachSpawn);
         }
+        print(waveNumber);
         yield return new WaitForSeconds(_timeBetweenWaves);
         waveNumber++;
-        StartCoroutine(SpawnWave());
+        PlayerStats.Instance.Rounds++;
+        if (!_isGameOver)
+        {
+            StartCoroutine(SpawnWave());
+        }
+        
     }
 
     public void RegisterEnemy(Enemy enemy)
@@ -71,6 +96,23 @@ public class GameManager : Singleton<GameManager>
     public void EndGame()
     {
         _isGameOver = true;
-        print("Game is Over! Implement functionality");
+        goUIRectTransform.transform.localPosition += Vector3.left * 800f;
+        waveNumber = 1;
+        print("End Game Called");
+        foreach (var enemy in _enemyList)
+        {
+            Destroy(enemy.gameObject);
+        }
+        _enemyList.Clear();
+
+    }
+
+    public void ResetOnRestart()
+    {
+        goUIRectTransform.transform.localPosition += Vector3.right * 800f;
+        StartCoroutine(SpawnWave());
+        _isGameOver = false;
+        waveNumber = 1;
+
     }
 }

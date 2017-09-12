@@ -7,12 +7,12 @@ public class PlayerStats : Singleton<PlayerStats>
 {
     [Header("Player Attributes")]
     [SerializeField] private int _money = 400;
-    [SerializeField] private int _playerLives = 20;
+    [SerializeField] private int _playerLives = 3;
 
+     public Text _moneyLabel;
+     public Text _livesLeftText;
 
-    [Header("Unity Setup")]
-    [SerializeField] private Text _moneyLabel;
-    [SerializeField] private Text _livesLeftText;
+    private int _rounds;
 
 
     public int Money
@@ -21,9 +21,27 @@ public class PlayerStats : Singleton<PlayerStats>
         set { _money = value; }
     }
 
-	void Start () {
+    public int Rounds
+    {
+        get { return _rounds; }
+        set { _rounds = value; }
+    }
+
+    public int PlayerLives
+    {
+        get { return _playerLives; }
+        set { _playerLives = value; }
+    }
+
+    private void Awake()
+    {
+        _livesLeftText = GameObject.Find("TopCanvas/Lives").GetComponent<Text>();
+        _moneyLabel = GameObject.Find("BottomCanvas/MoneyText").GetComponent<Text>();
+    }
+
+    void Start () {
 	    _moneyLabel.text = "$" + _money;
-	    _livesLeftText.text = _playerLives + " LIVES";
+	    _livesLeftText.text = PlayerLives + " LIVES";
 
 	}
 	
@@ -48,13 +66,23 @@ public class PlayerStats : Singleton<PlayerStats>
 
     public void LoseALife()
     {
-        _playerLives--;
-        _livesLeftText.text = _playerLives + " LIVES";
-        if (_playerLives <= 0)
+        PlayerLives--;
+        _livesLeftText.text = PlayerLives + " LIVES";
+        if (PlayerLives <= 0 && !GameManager.Instance.IsGameOver)
         {
             GameManager.Instance.EndGame();
         }
     }
+
+    public void ResetOnRestart()
+    {
+        _playerLives = 3; //Create startLives var
+        _livesLeftText.text = PlayerLives + " LIVES";
+        _money = 400; //Create Start money Var
+        _moneyLabel.text = "$" + _money;
+    }
+
+
 
     
 }
