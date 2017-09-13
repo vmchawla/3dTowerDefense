@@ -47,8 +47,12 @@ public class Bullet : MonoBehaviour {
 
     public void FixedUpdate()
     {
-        Vector3 dir = _target.position - transform.position;
-        rb.MovePosition(transform.position + dir.normalized * _speed * Time.fixedDeltaTime);
+        if (_target != null)
+        {
+            Vector3 dir = _target.position - transform.position;
+            rb.MovePosition(transform.position + dir.normalized * _speed * Time.fixedDeltaTime);
+        }
+
 
     }
 

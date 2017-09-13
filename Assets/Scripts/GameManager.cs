@@ -20,6 +20,7 @@ public class GameManager : Singleton<GameManager>
     private float countdown;
     private List<Enemy> _enemyList;
     private bool _isGameOver;
+    private Animator anim;
 
     private IEnumerator co;
 
@@ -45,7 +46,7 @@ public class GameManager : Singleton<GameManager>
         
         gameOverUI = GameObject.Find("OverlayCanvas/GameOverUI");
         goUIRectTransform = gameOverUI.GetComponent<RectTransform>();
-        goUIRectTransform.transform.localPosition += Vector3.right * 800f;
+        anim = gameOverUI.GetComponent<Animator>();
     }
 
 
@@ -66,20 +67,19 @@ public class GameManager : Singleton<GameManager>
 
     public IEnumerator SpawnWave()
     {
-        for (int i = 0; i < waveNumber; i++)
-        {
-            Instantiate(_enemyPrefab, _spawnPoint.transform.position, _spawnPoint.transform.rotation);
-            yield return new WaitForSeconds(_timeBetweenEachSpawn);
-        }
-        print(waveNumber);
-        yield return new WaitForSeconds(_timeBetweenWaves);
-        waveNumber++;
-        PlayerStats.Instance.Rounds++;
         if (!_isGameOver)
         {
+            for (int i = 0; i < waveNumber; i++)
+            {
+                Instantiate(_enemyPrefab, _spawnPoint.transform.position, _spawnPoint.transform.rotation);
+                yield return new WaitForSeconds(_timeBetweenEachSpawn);
+            }
+            print(waveNumber);
+            yield return new WaitForSeconds(_timeBetweenWaves);
+            waveNumber++;
+            PlayerStats.Instance.Rounds++;
             StartCoroutine(SpawnWave());
         }
-        
     }
 
     public void RegisterEnemy(Enemy enemy)
@@ -97,7 +97,8 @@ public class GameManager : Singleton<GameManager>
     {
         _isGameOver = true;
         goUIRectTransform.transform.localPosition += Vector3.left * 800f;
-        waveNumber = 1;
+        anim.SetTrigger("GameOver");
+        
         print("End Game Called");
         foreach (var enemy in _enemyList)
         {
@@ -110,9 +111,8 @@ public class GameManager : Singleton<GameManager>
     public void ResetOnRestart()
     {
         goUIRectTransform.transform.localPosition += Vector3.right * 800f;
-        StartCoroutine(SpawnWave());
         _isGameOver = false;
         waveNumber = 1;
-
+        StartCoroutine(SpawnWave());
     }
 }
