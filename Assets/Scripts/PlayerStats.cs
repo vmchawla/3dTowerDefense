@@ -58,9 +58,15 @@ public class PlayerStats : Singleton<PlayerStats>
         _moneyLabel.text = "$" + _money;
     }
 
-    public void ReduceMoney(Turret turret)
+    public void ReduceMoneyForNewTurret(Turret turret)
     {
         _money -= turret.Cost;
+        _moneyLabel.text = "$" + _money;
+    }
+
+    public void ReduceMoneyForUpgradingTurret(Turret turret)
+    {
+        _money -= turret.UpgradeCost;
         _moneyLabel.text = "$" + _money;
     }
 

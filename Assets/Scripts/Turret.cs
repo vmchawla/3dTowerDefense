@@ -9,6 +9,7 @@ public class Turret : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 2f;
     [SerializeField] private float _fireRate = 1f;
     [SerializeField] private int _cost;
+    [SerializeField] private int _upgradeCost;
 
     [Header("Unity Setup Fields")]
     [SerializeField] private Transform _partToRotate;
@@ -34,9 +35,15 @@ public class Turret : MonoBehaviour
         get { return _cost; }
     }
 
+    public int UpgradeCost
+    {
+        get { return _upgradeCost; }
+    }
+
     void Start () {
+        GameManager.Instance.RegisterTurret(this);
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {

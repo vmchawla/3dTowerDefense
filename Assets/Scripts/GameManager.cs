@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
 
     private float countdown;
     private List<Enemy> _enemyList;
+    private List<Turret> _turretList;
     private bool _isGameOver;
     private Animator anim;
 
@@ -53,6 +54,7 @@ public class GameManager : Singleton<GameManager>
 	void Start ()
 	{
         _enemyList = new List<Enemy>();
+        _turretList = new List<Turret>();
         co = SpawnWave();
         StartCoroutine(co);
         
@@ -74,7 +76,6 @@ public class GameManager : Singleton<GameManager>
                 Instantiate(_enemyPrefab, _spawnPoint.transform.position, _spawnPoint.transform.rotation);
                 yield return new WaitForSeconds(_timeBetweenEachSpawn);
             }
-            print(waveNumber);
             yield return new WaitForSeconds(_timeBetweenWaves);
             waveNumber++;
             PlayerStats.Instance.Rounds++;
@@ -91,6 +92,17 @@ public class GameManager : Singleton<GameManager>
     {
         _enemyList.Remove(enemy);
         Destroy(enemy.gameObject);
+    }
+
+    public void RegisterTurret(Turret turret)
+    {
+        _turretList.Add(turret);
+    }
+
+    public void UnRegisterAndDestroyTurret(Turret turret)
+    {
+        _turretList.Remove(turret);
+        Destroy(turret.gameObject);
     }
 
     public void EndGame()
@@ -114,5 +126,10 @@ public class GameManager : Singleton<GameManager>
         _isGameOver = false;
         waveNumber = 1;
         StartCoroutine(SpawnWave());
+        foreach (var turret in _turretList)
+        {
+            Destroy(turret.gameObject);
+        }
+        _turretList.Clear();
     }
 }

@@ -39,7 +39,7 @@ public class Node : MonoBehaviour {
     {
         if (AlreadyHasTurret)
         {
-            print("Cant build there!");
+            TurretManager.Instance.SelectNode(this);
             return;
         }
 
