@@ -51,7 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe669e81805e0f54088b43e2d547536a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _money: 9999
+  _money: 400
   _playerLives: 3
-  _moneyLabel: {fileID: 0}
-  _livesLeftText: {fileID: 0}

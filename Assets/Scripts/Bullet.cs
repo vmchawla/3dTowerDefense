@@ -34,7 +34,6 @@ public class Bullet : MonoBehaviour {
 
         if (_target == null)
         {
-            print("Target is null");
             Destroy(gameObject);
             return;
         }

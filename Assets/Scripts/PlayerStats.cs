@@ -9,8 +9,8 @@ public class PlayerStats : Singleton<PlayerStats>
     [SerializeField] private int _money = 400;
     [SerializeField] private int _playerLives = 3;
 
-     public Text _moneyLabel;
-     public Text _livesLeftText;
+     private Text _moneyLabel;
+     private Text _livesLeftText;
 
     private int _rounds;
 

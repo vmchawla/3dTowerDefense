@@ -57,5 +57,13 @@ MonoBehaviour:
     type: 2}
   laserBeamerprefab: {fileID: 114348466177260922, guid: 4449492d96caba34cb891ed0cab93db7,
     type: 2}
+  standard_UpgradedTurretPrefab: {fileID: 114580961553801032, guid: 5203315e174c4724a8639d2e3c394d2c,
+    type: 2}
+  missile_UpgradedLauncherprefab: {fileID: 114606164006302004, guid: d3c2f9b057cd86e4f96fdbe2899960ba,
+    type: 2}
+  laser_UpgradedBeamerprefab: {fileID: 114348466177260922, guid: 3efe6b6b8e9994c478460cfc6e542ed0,
+    type: 2}
   turretBuildEffect: {fileID: 1349394227201520, guid: 064843e9b85bf0c4f86d0fa58674cbb5,
+    type: 2}
+  turretSellEffect: {fileID: 1488496387408038, guid: d5c7347cf1043e34d88c5288d286a4d4,
     type: 2}

@@ -11,6 +11,8 @@ public class Node : MonoBehaviour {
     private bool alreadyHasTurret = false;
     private Color startColor;
     private Renderer rend;
+    private Turret _currentTurret;
+    private bool _hasUpgradedTurret;
 
     public bool AlreadyHasTurret
     {
@@ -25,7 +27,34 @@ public class Node : MonoBehaviour {
         }
     }
 
+    public Turret CurrentTurret
+    {
+        get
+        {
+            return _currentTurret;
+        }
+
+        set
+        {
+            _currentTurret = value;
+        }
+    }
+
+    public bool HasUpgradedTurret
+    {
+        get
+        {
+            return _hasUpgradedTurret;
+        }
+
+        set
+        {
+            _hasUpgradedTurret = value;
+        }
+    }
+
     void Start () {
+        
         rend = GetComponent<Renderer>();
         startColor = rend.material.color;
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
+using System;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -20,8 +21,12 @@ public class GameManager : Singleton<GameManager>
     private float countdown;
     private List<Enemy> _enemyList;
     private List<Turret> _turretList;
+    private List<Node> _nodeUsedOnceOrMoreList;
     private bool _isGameOver;
     private Animator anim;
+    private int waveNumber;
+    private RectTransform goUIRectTransform;
+    private Text waveNumberText;
 
     private IEnumerator co;
 
@@ -35,8 +40,7 @@ public class GameManager : Singleton<GameManager>
         get  {return _isGameOver; }
     }
 
-    private int waveNumber;
-    private RectTransform goUIRectTransform;
+
 
     void Awake()
     {
@@ -48,13 +52,16 @@ public class GameManager : Singleton<GameManager>
         gameOverUI = GameObject.Find("OverlayCanvas/GameOverUI");
         goUIRectTransform = gameOverUI.GetComponent<RectTransform>();
         anim = gameOverUI.GetComponent<Animator>();
+        waveNumberText = GameObject.Find("BottomCanvas/WaveNumberText").GetComponent<Text>();
     }
 
 
 	void Start ()
 	{
+        waveNumberText.text = "Wave Number" + Environment.NewLine + waveNumber;
         _enemyList = new List<Enemy>();
         _turretList = new List<Turret>();
+        _nodeUsedOnceOrMoreList = new List<Node>();
         co = SpawnWave();
         StartCoroutine(co);
         
@@ -69,7 +76,7 @@ public class GameManager : Singleton<GameManager>
 
     public IEnumerator SpawnWave()
     {
-        if (!_isGameOver)
+        if  (!_isGameOver)
         {
             for (int i = 0; i < waveNumber; i++)
             {
@@ -78,9 +85,11 @@ public class GameManager : Singleton<GameManager>
             }
             yield return new WaitForSeconds(_timeBetweenWaves);
             waveNumber++;
+            waveNumberText.text = "Wave Number" + Environment.NewLine + waveNumber;
             PlayerStats.Instance.Rounds++;
             StartCoroutine(SpawnWave());
         }
+        
     }
 
     public void RegisterEnemy(Enemy enemy)
@@ -99,10 +108,19 @@ public class GameManager : Singleton<GameManager>
         _turretList.Add(turret);
     }
 
-    public void UnRegisterAndDestroyTurret(Turret turret)
+    public void UnRegisterTurret(Turret turret)
     {
         _turretList.Remove(turret);
-        Destroy(turret.gameObject);
+    }
+
+    public void RegisterNode(Node node)
+    {
+        _nodeUsedOnceOrMoreList.Add(node);
+    }
+
+    public void UnRegisterNode(Node node)
+    {
+        _nodeUsedOnceOrMoreList.Remove(node);
     }
 
     public void EndGame()
@@ -111,7 +129,6 @@ public class GameManager : Singleton<GameManager>
         goUIRectTransform.transform.localPosition += Vector3.left * 800f;
         anim.SetTrigger("GameOver");
         
-        print("End Game Called");
         foreach (var enemy in _enemyList)
         {
             Destroy(enemy.gameObject);
@@ -125,11 +142,19 @@ public class GameManager : Singleton<GameManager>
         goUIRectTransform.transform.localPosition += Vector3.right * 800f;
         _isGameOver = false;
         waveNumber = 1;
+        waveNumberText.text = "Wave Number" + Environment.NewLine + waveNumber;
         StartCoroutine(SpawnWave());
         foreach (var turret in _turretList)
         {
             Destroy(turret.gameObject);
         }
         _turretList.Clear();
+        
+        foreach (var node in _nodeUsedOnceOrMoreList)
+        {
+            node.AlreadyHasTurret = false;
+            node.HasUpgradedTurret = false;
+        }
+        _nodeUsedOnceOrMoreList.Clear();
     }
 }

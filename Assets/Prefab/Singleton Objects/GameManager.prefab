@@ -57,4 +57,4 @@ MonoBehaviour:
     type: 2}
   _enemyPrefab: {fileID: 114866401499964694, guid: 83f972065a08a304ea0f056784e55dcd,
     type: 2}
-  gameOverUI: {fileID: 1368536087200064, guid: 974dec4bdad84474d8f889213eeb593f, type: 2}
+  gameOverUI: {fileID: 0}

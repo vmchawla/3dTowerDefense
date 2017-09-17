@@ -40,6 +40,19 @@ public class Turret : MonoBehaviour
         get { return _upgradeCost; }
     }
 
+    public Vector3 Offset
+    {
+        get
+        {
+            return offset;
+        }
+
+        set
+        {
+            offset = value;
+        }
+    }
+
     void Start () {
         GameManager.Instance.RegisterTurret(this);
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
@@ -99,10 +112,10 @@ public class Turret : MonoBehaviour
             impactEffect.Play();
             impactLight.enabled = true;
         }
-        lineRenderer.SetPosition(0, transform.position + offset);
+        lineRenderer.SetPosition(0, transform.position + Offset);
         lineRenderer.SetPosition(1, _target.position);
 
-        Vector3 dir = (transform.position + offset) - _target.position;
+        Vector3 dir = (transform.position + Offset) - _target.position;
         impactEffect.transform.position = _target.position + dir.normalized;
         impactEffect.transform.rotation = Quaternion.LookRotation(dir);
 
@@ -111,7 +124,7 @@ public class Turret : MonoBehaviour
 
     void Shoot()
     {
-        Bullet bullet = Instantiate(bulletPrefab, transform.position + offset, Quaternion.identity);
+        Bullet bullet = Instantiate(bulletPrefab, transform.position + Offset, Quaternion.identity);
         
         if (bullet != null)
         {

@@ -9,9 +9,14 @@ public class TurretManager : Singleton<TurretManager> {
     [SerializeField] private Turret standardTurretprefab;
     [SerializeField] private Turret missileLauncherprefab;
     [SerializeField] private Turret laserBeamerprefab;
+    [SerializeField] private Turret standard_UpgradedTurretPrefab;
+    [SerializeField] private Turret missile_UpgradedLauncherprefab;
+    [SerializeField] private Turret laser_UpgradedBeamerprefab;
     [SerializeField] private GameObject turretBuildEffect;
+    [SerializeField] private GameObject turretSellEffect;
 
     private Turret _turretToBuild = null;
+    private Turret _upgradeTurretToBuild = null;
     private Node selectedNode;
     private NodeUI nodeUI;
     private Animator anim;
@@ -91,10 +96,12 @@ public class TurretManager : Singleton<TurretManager> {
             }
             else
             {
-                Instantiate(_turretToBuild, node.transform.position + GetOffset(), transform.rotation);
+                Turret turret = Instantiate(_turretToBuild, node.transform.position + GetOffset(), transform.rotation);
+                node.CurrentTurret = turret;
                 GameObject buildEffect = Instantiate(turretBuildEffect, node.transform.position + GetOffset(), transform.rotation);
                 Destroy(buildEffect, 5f);
                 node.AlreadyHasTurret = true;
+                GameManager.Instance.RegisterNode(node);
                 PlayerStats.Instance.ReduceMoneyForNewTurret(_turretToBuild);
                 //PlayerStats.Instance.Money -= _turretToBuild.Cost;
                 //print("money Left: " + PlayerStats.Instance.Money);
@@ -105,20 +112,48 @@ public class TurretManager : Singleton<TurretManager> {
 
     public void UpgradeTurret(Node node)
     {
-        if (PlayerStats.Instance.Money < _turretToBuild.UpgradeCost)
+        if (PlayerStats.Instance.Money < node.CurrentTurret.UpgradeCost)
         {
             print("You do not have enough money to Upgrade that");
         }
         else
         {
-            Instantiate(_turretToBuild, node.transform.position + GetOffset(), transform.rotation);
-            GameObject buildEffect = Instantiate(turretBuildEffect, node.transform.position + GetOffset(), transform.rotation);
+            GetTurretUpgradePrefab(node);
+            PlayerStats.Instance.ReduceMoneyForUpgradingTurret(node.CurrentTurret);
+            Destroy(node.CurrentTurret.gameObject);
+            node.HasUpgradedTurret = true;
+            GameManager.Instance.UnRegisterTurret(node.CurrentTurret);
+            Turret upgradedTurret = Instantiate(_upgradeTurretToBuild, node.transform.position + new Vector3(0, 0.75f, 0f), transform.rotation);
+            node.CurrentTurret = upgradedTurret;
+            
+            GameObject buildEffect = Instantiate(turretBuildEffect, node.transform.position, transform.rotation);
             Destroy(buildEffect, 5f);
-            node.AlreadyHasTurret = true;
-            PlayerStats.Instance.ReduceMoneyForNewTurret(_turretToBuild);
-            //PlayerStats.Instance.Money -= _turretToBuild.Cost;
-            //print("money Left: " + PlayerStats.Instance.Money);
+            
+            
+            DeSelectNode();
+
+
+
+
+            //Instantiate(_turretToBuild, node.transform.position + GetOffset(), transform.rotation);
+            //GameObject buildEffect = Instantiate(turretBuildEffect, node.transform.position + GetOffset(), transform.rotation);
+            //Destroy(buildEffect, 5f);
+            //node.AlreadyHasTurret = true;
+            //PlayerStats.Instance.ReduceMoneyForNewTurret(_turretToBuild);
         }
+    }
+
+    public void SellTurret(Node node)
+    {
+        PlayerStats.Instance.AddMoney(node.CurrentTurret.Cost / 2);
+        GameManager.Instance.UnRegisterTurret(node.CurrentTurret);
+        Destroy(node.CurrentTurret.gameObject);
+        node.CurrentTurret = null;
+        node.AlreadyHasTurret = false;
+        node.HasUpgradedTurret = false;
+        GameObject buildEffect = Instantiate(turretSellEffect, node.transform.position + new Vector3(0f, 1f, 0f), transform.rotation);
+        Destroy(buildEffect, 5f);
+        DeSelectNode();
     }
 
     private Vector3 GetOffset()
@@ -141,6 +176,23 @@ public class TurretManager : Singleton<TurretManager> {
             offset = new Vector3(0f, 0.75f, 0f);
         }
         return offset;
+    }
+
+    private void GetTurretUpgradePrefab(Node node)
+    {
+        if (node.CurrentTurret.name.Contains("StandardTurret"))
+        {
+            _upgradeTurretToBuild = standard_UpgradedTurretPrefab;
+        }
+        else if (node.CurrentTurret.name.Contains("MissileLauncher"))
+        {
+            _upgradeTurretToBuild = missile_UpgradedLauncherprefab;
+        }
+        else if (node.CurrentTurret.name.Contains("LaserBeamer"))
+        {
+            _upgradeTurretToBuild = laser_UpgradedBeamerprefab;
+        }
+
     }
 
 }
